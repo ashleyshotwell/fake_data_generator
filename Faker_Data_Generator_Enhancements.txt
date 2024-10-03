@@ -1,0 +1,17 @@
+https://github.com/SteveKaranja/Fake-Data-Generator?tab=readme-ov-file
+
+https://github.com/cyberdyne-ventures/dune/pulls
+
+The data layer (and the rest) is here: https://github.com/cyberdyne-ventures/skynet-data
+
+
+# ENHANCEMENTS TODO: Use Github Copilot in VS Code to do all the following steps
+- DONE: Change download location to local project folder
+- DONE: add an additional output format selection of .XLSX
+
+
+# ASSIGNMENT
+## TODO: Decode the geolocation into a street address.
+## TODO: Identify any missing functionality 
+## TODO: Identify, document and add atleast one new feature
+

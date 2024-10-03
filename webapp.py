@@ -9,18 +9,42 @@ from faker import Faker
 # Utils
 import base64
 import time
+import os
 
 timestr = time.strftime("%Y%m%d-%H%M%S")
 
 
+# # Fxn to Download
+# def make_downloadable_df(data):
+#     csvfile = data.to_csv(index=False)
+#     b64 = base64.b64encode(csvfile.encode()).decode()  # B64 encoding
+#     st.markdown("### ** Download CSV File ** ")
+#     new_filename = "fake_dataset_{}.csv".format(timestr)
+#     href = f'<a href="data:file/csv;base64,{b64}" download="{new_filename}">Click Here!</a>'
+#     st.markdown(href, unsafe_allow_html=True)
+
 # Fxn to Download
 def make_downloadable_df(data):
     csvfile = data.to_csv(index=False)
-    b64 = base64.b64encode(csvfile.encode()).decode()  # B64 encoding
-    st.markdown("### ** Download CSV File ** ")
     new_filename = "fake_dataset_{}.csv".format(timestr)
-    href = f'<a href="data:file/csv;base64,{b64}" download="{new_filename}">Click Here!</a>'
-    st.markdown(href, unsafe_allow_html=True)
+    file_path = os.path.join(os.getcwd(), new_filename)
+    with open(file_path, "w") as f:
+        f.write(csvfile)
+    st.success(f"File saved to {file_path}")
+
+
+# # Fxn to Download Into A Format
+# def make_downloadable_df_format(data, format_type="csv"):
+#     if format_type == "csv":
+#         datafile = data.to_csv(index=False)
+#     elif format_type == "json":
+#         datafile = data.to_json()
+#     b64 = base64.b64encode(datafile.encode()).decode()  # B64 encoding
+#     st.markdown("### ** Download File  📩 ** ")
+#     #new_filename = "fake_dataset_{}.{}".format(timestr, format_type)
+#     new_filename = f"fake_dataset_{timestr}.{format_type}"
+#     href = f'<a href="data:file/{format_type};base64,{b64}" download="{new_filename}">Click Here!</a>'
+#     st.markdown(href, unsafe_allow_html=True)
 
 
 # Fxn to Download Into A Format
@@ -29,12 +53,11 @@ def make_downloadable_df_format(data, format_type="csv"):
         datafile = data.to_csv(index=False)
     elif format_type == "json":
         datafile = data.to_json()
-    b64 = base64.b64encode(datafile.encode()).decode()  # B64 encoding
-    st.markdown("### ** Download File  📩 ** ")
     new_filename = "fake_dataset_{}.{}".format(timestr, format_type)
-    href = f'<a href="data:file/{format_type};base64,{b64}" download="{new_filename}">Click Here!</a>'
-    st.markdown(href, unsafe_allow_html=True)
-
+    file_path = os.path.join(os.getcwd(), new_filename)
+    with open(file_path, "w") as f:
+        f.write(datafile)
+    st.success(f"File saved to {file_path}")
 
 # Generate A Simple Profile
 def generate_profile(number, random_seed=200):
@@ -56,7 +79,7 @@ def generate_locale_profile(number, locale, random_seed=200):
 
 custom_title = """
     <div style="background-color:teal ;padding:10px">
-    <h2 style="color:white;text-align:center;">FAKE DATA GENERATOR</h2>
+    <h2 style="color:white;text-align:center;">Ashley's FAKE DATA GENERATOR</h2>
     </div>
 """
 
@@ -89,6 +112,7 @@ def main():
 
     elif choice == "Customize":
         st.subheader("Customize Your Fields")
+
         # Locale Providers For Faker Class
         localized_providers = ["ar_AA", "ar_EG", "ar_JO", "ar_PS", "ar_SA", "bg_BG", "bs_BA", "cs_CZ", "de", "de_AT",
                                "de_CH", "de_DE", "dk_DK", "el_CY", "el_GR", "en", "en_AU", "en_CA", "en_GB", "en_IE",
@@ -98,11 +122,15 @@ def main():
                                "lb_LU", "lt_LT", "lv_LV", "mt_MT", "ne_NP", "nl_BE", "nl_NL", "no_NO", "or_IN", "pl_PL",
                                "pt_BR", "pt_PT", "ro_RO", "ru_RU", "sk_SK", "sl_SI", "sv_SE", "ta_IN", "th", "th_TH",
                                "tl_PH", "tr_TR", "tw_GH", "uk_UA", "zh_CN", "zh_TW"]
+        
         locale = st.sidebar.multiselect("Select Locale", localized_providers, default="en_US")
 
-        profile_options_list = ['username', 'name', 'sex', 'address', 'mail', 'birthdate''job', 'company', 'ssn',
+        profile_options_list = ['username', 'name', 'sex', 'address', 'mail', 'birthdate', 'job', 'company', 'ssn',
                                 'residence', 'current_location', 'blood_group', 'website']
-        profile_fields = st.sidebar.multiselect("Fields", profile_options_list, default='username')
+        
+        default_fields = ['username', 'ssn']
+        #profile_fields = st.sidebar.multiselect("Fields", profile_options_list, default='username')
+        profile_fields = st.sidebar.multiselect("Fields", profile_options_list, default=default_fields)
 
         number_to_gen = st.sidebar.number_input("Number", 10, 10000)
         dataformat = st.sidebar.selectbox("Save Data As", ["csv", "json"])

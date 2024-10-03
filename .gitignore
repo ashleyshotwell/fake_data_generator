@@ -1,0 +1,32 @@
+# Exclude Excel files
+*.xlsx
+*.xls
+
+# Exclude CSV files
+*.csv
+
+# Exclude JSON files
+*.json
+*.jsonl
+
+# Exclude other common data files
+*.xml
+*.dat
+*.log
+
+# Exclude Python cache files
+__pycache__/
+*.py[cod]
+
+# Exclude Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Exclude environment files
+.env
+.venv
+env/
+venv/
+
+# Exclude system files
+.DS_Store
+Thumbs.db
