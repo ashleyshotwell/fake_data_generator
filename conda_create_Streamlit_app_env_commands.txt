@@ -1,0 +1,10 @@
+# conda create commands
+
+# Create virtual environment with conda
+conda create -n streamlit_apps python=3.9 conda pip 
+
+# Activate virtual environment
+conda activate streamlit_apps
+
+# Install packages
+conda install -c conda-forge streamlit pandas Faker openpyxl
